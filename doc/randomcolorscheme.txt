@@ -1,0 +1,109 @@
+*randomcolorscheme.nvim.txt*  Plugin for loading random colorschemes
+
+==============================================================================
+CONTENTS                                                      *randomcolorscheme*
+
+1. Introduction ........................................ |randomcolorscheme-intro|
+2. Installation ........................................ |randomcolorscheme-install|
+3. Configuration ....................................... |randomcolorscheme-config|
+4. Commands ............................................ |randomcolorscheme-commands|
+5. Telescope Integration ............................... |randomcolorscheme-telescope|
+
+==============================================================================
+1. Introduction                                          *randomcolorscheme-intro*
+
+randomcolorscheme.nvim is a Neovim plugin that loads a random colorscheme. You can
+provide a list of colorschemes to restrict the selection to this list. Otherwise,
+a random colorscheme from all available colorschemes is loaded.
+
+==============================================================================
+2. Installation                                          *randomcolorscheme-install*
+
+To install randomcolorscheme.nvim, you can use your favorite plugin manager. Below
+is an example configuration using `lazy.nvim`. Omit calling setup if you want
+to load random colorschemes from all available color schemes.
+
+>lua
+    {
+      'rene-hess/randomcolorscheme.nvim',
+      lazy = false,
+      priority = 1000,
+      dependencies = {
+        'rebelot/kanagawa.nvim',
+        'folke/tokyonight.nvim',
+      },
+      config = function()
+        local rc = require 'randomcolorscheme'
+
+        local opts = {
+          schemes = {
+            'kanagawa-wave',
+            'tokyonight',
+          },
+        }
+        rc.setup(opts)
+
+        vim.api.nvim_create_autocmd('VimEnter', {
+          callback = function()
+            rc.load()
+          end,
+        })
+      end,
+    },
+<
+
+==============================================================================
+3. Configuration                                         *randomcolorscheme-config*
+
+You can configure randomcolorscheme.nvim by calling the `setup` function with a
+table of options. The available options are:
+
+- `schemes`: A list of colorschemes to choose from. If not provided, all available
+  colorschemes will be used. Make sure the themes are installed.
+
+Example:
+
+>lua
+    local rc = require 'randomcolorscheme'
+
+    local opts = {
+      schemes = {
+        'kanagawa-wave',
+        'tokyodark',
+      },
+    }
+    rc.setup(opts)
+<
+
+==============================================================================
+4. Commands                                              *randomcolorscheme-commands*
+
+randomcolorscheme.nvim provides the following commands:
+
+- `:RandomColorscheme`: Loads a random colorscheme from the configured list or
+  from all available colorschemes if no list is provided.
+
+==============================================================================
+5. Telescope Integration                                 *randomcolorscheme-telescope*
+
+randomcolorscheme.nvim integrates with Telescope to provide a picker for changing
+colorschemes. To use this integration, you need to register the extension with
+Telescope. This is usually done in the configuration of the telescope plugin.
+Example:
+
+>lua
+    require('telescope').load_extension 'randomcolorschemeloader'
+    vim.keymap.set('n', '<leader>mt', ":lua require('telescope').extensions.randomcolorschemeloader.loader()<CR>", { desc = 'Load colorscheme from my list' })
+<
+
+Telescope integration is completely optional. The randomcolorscheme plugin
+also works without Telescope being installed.
+
+==============================================================================
+LICENSE                                                   *randomcolorscheme-license*
+
+randomcolorscheme.nvim is licensed under the MIT License. See the LICENSE file for
+more details.
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
