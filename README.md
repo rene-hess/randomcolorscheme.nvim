@@ -48,5 +48,4 @@ Telescope config:
 ```lua
 require('telescope').load_extension 'randomcolorschemeloader'
 vim.keymap.set('n', '<leader>mt', ":lua require('telescope').extensions.randomcolorschemeloader.loader()<CR>", { desc = 'Load colorscheme from my list' })
-<
 ```
